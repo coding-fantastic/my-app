@@ -3,7 +3,6 @@ import { useCookies } from "react-cookie";
 import "./App.css";
 import ArticleList from "./components/ArticleList";
 import Form from "./components/Form";
-import Navbar from "./components/Navbar";
 
 function App() {
   const [articles, setArticles] = useState([]);
