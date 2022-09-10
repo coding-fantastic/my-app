@@ -2,36 +2,53 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import APIService from "../APIService";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useCookies(["mytoken"]);
   const [isLogin, setLogin] = useState(true);
+  let navigate = useNavigate();
   // let history = useHistory();
 
   useEffect(() => {
-    // if (token["mytoken"] == "undefined") {
-    //   window.location.href = "/";
+    // if (token["mytoken"]) {
+    //   window.location.href = "/articles";
     //   console.log(token["mytoken"].length);
-    //   console.log("in first if ");
     // }
-    if (token["mytoken"]) {
-      window.location.href = "/articles";
-      console.log(token["mytoken"].length);
+
+    var user_token = token["mytoken"];
+    console.log("Login user token is ", user_token);
+    console.log("Data type ", typeof token["mytoken"]);
+    if (String(user_token) === "undefined") {
+      navigate("/");
+    } else {
+      navigate("/articles");
     }
   }, [token]);
 
   const loginBtn = () => {
-    APIService.LoginUser({ username, password })
-      .then((resp) => setToken("mytoken", resp.token))
-      .catch((error) => console.log(error));
+    if (username.trim().length !== 0 && password.trim().length !== 0) {
+      // loginuser function reuturn users token
+      APIService.LoginUser({ username, password })
+        .then((resp) => setToken("mytoken", resp.token))
+        .catch((error) => console.log(error));
+    } else {
+      console.log("username and password are not set");
+      navigate("/");
+    }
   };
 
   const RegisterBtn = () => {
-    APIService.RegisterUser({ username, password })
-      .then(() => loginBtn())
-      .catch((error) => console.log(error));
+    if (username.trim().length !== 0 && password.trim().length !== 0) {
+      APIService.RegisterUser({ username, password })
+        .then(() => loginBtn())
+        .catch((error) => console.log(error));
+    } else {
+      console.log("username and password are not set");
+      navigate("/");
+    }
   };
   return (
     <div className="App">
@@ -51,6 +68,7 @@ function Login() {
           placeholder="Please enter username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
       </div>
       <div className="mb-3">

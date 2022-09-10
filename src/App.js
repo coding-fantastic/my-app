@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import "./App.css";
 import ArticleList from "./components/ArticleList";
 import Form from "./components/Form";
+import Navbar from "./components/Navbar";
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -72,9 +73,9 @@ function App() {
     // remove the token / cookie
     removeToken(["mytoken"]);
   };
-
   return (
     <div className="App">
+      {/* <Navbar logoutBtn={logoutBtn} /> */}
       <div className="row">
         <div className="col">
           <h1> Django and ReactJS Application </h1>
