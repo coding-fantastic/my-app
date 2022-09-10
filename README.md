@@ -1,10 +1,6 @@
 # Getting Started with Create React App
 
-"# blog app my-app "
-
-### blog app
-
-## my-app
+# blog app my-app
 
 ### `blog my-app` with crud
 
